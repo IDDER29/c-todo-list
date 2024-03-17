@@ -1,12 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void display_the_todo_lists(){
+
+    printf("call the function that display the to-do list titels that are existes ");
+
+}
+
+void create_a_todo_list(){
+    char *title = NULL;
+    title = (char*)malloc(sizeof(char) * 50);
+    printf("\n--- create a new to-do list ---\n\n");
+    // printf("-> What would you like to call your to-do list?");
+    printf("-> Enter a title that reflects your goals for this to-do list : ");
+    scanf("%s", title);
+
+    printf("the title is %s", title);
+
+
+}
+
 int main()
 {
     int userOptionChoice;
 
     // starting the app
-    printf("#### TODO LIST ####\n\n");
+    printf("#### TODO LIST APP ####\n\n");
 
     // welcome the user
     //printf("Hello user!\n\n");
@@ -30,10 +49,10 @@ askTheUserToChoose:
 
     switch(userOptionChoice){
     case 1:
-        printf("call the function that display the to-do list titels that are existes ");
+        display_the_todo_lists();
         break;
     case 2:
-        printf("call the function that create a new to-do list ");
+        create_a_todo_list();
         break;
     case 3:
         printf("the app is closed.");
