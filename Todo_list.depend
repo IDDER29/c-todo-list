@@ -1,9 +1,6 @@
 # depslib dependency file v1.0
-1710683873 source:c:\users\developer\desktop\all\courses\chalanges\c\todo_list\main.c
+1710891244 source:c:\users\developer\documents\github\c-todo-list\main.c
 	<stdio.h>
 	<stdlib.h>
-
-1710850398 source:c:\users\developer\documents\github\c-todo-list\main.c
-	<stdio.h>
-	<stdlib.h>
+	<string.h>
 

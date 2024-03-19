@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct{
-    char description[20];
+    char description[100];
     int Priority;
     int expacted_duration;
 }todo_task;
@@ -12,7 +13,7 @@ typedef struct{
     char title[50];
     int number_of_tasks ;
 
-    todo_tasks todo_task[5];
+    todo_task todo_tasky[50];
 
 }todo_list;
 
@@ -53,10 +54,11 @@ void display_the_todo_list_items()
 
 }
 
-void display_the_todo_list_item_details()
+void display_the_todo_list_item_details(todo_list todoList[])
 {
 
-    printf("This function display the to-do list item details and provide options to edit it.");
+
+    printf("This function display the to-do list item details and provide options to edit it.\n");
 
     /*
     printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
@@ -69,6 +71,10 @@ void display_the_todo_list_item_details()
 
 
     */
+     printf("%s\n", todoList[0].todo_tasky[0].description);
+     printf("%d\n", todoList[0].todo_tasky[0].Priority);
+    printf("%d\n", todoList[0].todo_tasky[0].expacted_duration);
+
     printf("=> Option 1: Mark To-Do item as Complete\n");
     printf("=> Option 2: Create a New To-Do item\n");
     printf("=> Option 3: Delete To-Do item\n");
@@ -94,7 +100,7 @@ void add_new_tasks_to_the_todo_list()
     }
 
 
-    printf("\n--- Create a new to-do list ---\n\n");
+    printf("\n--- Create a new Task ---\n\n");
 
 
 
@@ -106,22 +112,24 @@ void add_new_tasks_to_the_todo_list()
     //getchar();
     //fgets(task, 49, stdin);
 
-    printf("\n-> What is it's level of priority (1,2,3,4) : ");
+    printf("\n-> What is its priority level? (1 = Urgent, 4 = Low priority) : ");
     scanf("%d", &priority);
 
     printf("\n-> How long did you anticipate this would take to complete in minutes? : ");
     scanf("%d", &duration);
 
-    todo_list.todo_task[0];
-    todo_list.todo_tasks[todoList[0].number_of_tasks].Priority = priority;
-    todo_list.todo_tasks[todoList[0].number_of_tasks].expacted_duration = duration;
+
+    strcpy(todoList[0].todo_tasky[todoList[0].number_of_tasks].description,task);
+    todoList[0].todo_tasky[todoList[0].number_of_tasks].Priority = priority;
+    todoList[0].todo_tasky[todoList[0].number_of_tasks].expacted_duration = duration;
 
     /*
     printf("=> the task is : %s\n", task);
     printf("=> the priority is : %d\n", priority);
     printf("=> the duration is : %d\n", duration);
     */
-    printf("The task was add sucssfuly");
+    printf("The task was add sucssfuly\n");
+    display_the_todo_list_item_details(todoList);
 
 }
 
@@ -139,12 +147,13 @@ void create_a_new_todo_list(FILE* fptr)
         printf("Memory allocation failed for title.\n");
         return;
     }
+
     // get the title of the to-do list
     printf("-> Enter a title that reflects your goals for this to-do list : ");
     scanf(" %[^\n]", title);
 
-    todoList[0].title = title;
-    todoList[0].number_of_tasks= -1;
+  /*  todoList[0].title = title;
+    todoList[0].number_of_tasks= -1;*/
 
 
     //fprintf(fptr, title);
