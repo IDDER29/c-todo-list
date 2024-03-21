@@ -58,6 +58,65 @@ void display_the_todo_lists(struct TodoList *ptrTDL, int number_of_todo_lists)
 
     }
 
+      int userChoiseTask,userEditChoiseAction;
+      printf("=> which todo list you want to joine from 1 to %d : ", number_of_todo_lists);
+    scanf("%d",&userChoiseTask);
+
+      printf("=============================================\n");
+    printf("** Task Information **\n");
+    printf("=============================================\n");
+
+
+
+    //display the vlaues
+    printf("\nnumber of tasks : %d\n", ptrTDL[userChoiseTask-1].number_of_tasks);
+
+
+
+    for(int i = 0; i < (ptrTDL[userChoiseTask-1].number_of_tasks); i++)
+    {
+        printf("\033[1;34m"); // Set text color to blue
+        printf("-----------------------------------------------------------------------\n");
+        printf("Task %d Description: %s\n",i+1, ptrTDL[i].todo_tasky[i].description);
+        printf("\033[0m");
+        printf("\n=============================================\n\n");
+
+    }
+
+    printf("\033[1;31m");
+    printf("=> Option 1: edit the description of the task\n");
+    printf("=> Option 2: edit the prorete\n");
+    printf("=> Option 3: edit the time expacted \n");
+    printf("=> Option 4: edit it's curent sutation Done/notDone\n");
+    printf("=> Option 5: go to back\n");
+    printf("\033[0m");
+    scanf(" %d",&userEditChoiseAction);
+    printf("\n");
+
+    switch(userEditChoiseAction)
+    {
+    case 1:
+        printf("Task %d curent Description: %s\n",userChoiseTask, ptrTDL->todo_tasky[userChoiseTask-1].description);
+        printf("input your new description : ");
+        scanf(" %[^\n]", ptrTDL->todo_tasky[userChoiseTask-1].description);
+        break;
+    case 2:
+        printf("Task %d curent priority level: %d\n",userChoiseTask, ptrTDL->todo_tasky[userChoiseTask-1].Priority);
+        printf("input your new priority level : ");
+        scanf("%d", &(ptrTDL->todo_tasky[userChoiseTask-1].Priority));
+        break;
+    case 3:
+        printf("Task %d curent duration: %d\n",userChoiseTask, ptrTDL->todo_tasky[userChoiseTask-1].expected_duration);
+        printf("input your new expacted duration : ");
+        scanf("%d", &(ptrTDL->todo_tasky[userChoiseTask-1].expected_duration));
+        break;
+    case 4:
+        break;
+    case 5:
+        break;
+    default:
+        break;
+    }
 
 
     printf("\033[1;31m");
@@ -224,18 +283,19 @@ void delete_the_todo_list_items(struct TodoList *ptrTDL)
 }
 
 
-void add_new_tasks_to_the_todo_list(struct TodoList *ptrTDL)
+void add_new_tasks_to_the_todo_list(struct TodoList *ptrTDL_T,struct TodoList *ptrTDL)
 {
     system("cls");
     // printf("\033[H\033[J");
 
+
     int index = ptrTDL->number_of_tasks;
-    ptrTDL->number_of_tasks= ptrTDL->number_of_tasks + 1;
+    ptrTDL->number_of_tasks = ptrTDL->number_of_tasks + 1;
 
-    printf("new task num of tasks : %d\n",ptrTDL->number_of_tasks);
+    printf("new task num of tasks : %d\n", ptrTDL->number_of_tasks);
 
-
-    ptrTDL->todo_tasky = realloc(ptrTDL->todo_tasky, (ptrTDL->number_of_tasks) * sizeof(struct TodoTask));
+    // Reallocate the todo_tasky array to accommodate the new task
+    ptrTDL->todo_tasky = realloc(ptrTDL->todo_tasky, ptrTDL->number_of_tasks * sizeof(struct TodoTask));
     if (ptrTDL->todo_tasky == NULL)
     {
         printf("Memory allocation failed.\n");
@@ -243,7 +303,7 @@ void add_new_tasks_to_the_todo_list(struct TodoList *ptrTDL)
     }
 
     printf("\n=============================================\n");
-    printf("** %s **\n",ptrTDL );
+    printf("** %s **\n",ptrTDL_T->title );
     printf("=============================================\n\n");
 
 
@@ -295,10 +355,10 @@ struct TodoList *create_a_new_todo_list(struct TodoList *ptrTDL,int number_of_to
 
 
     printf("Enter a title for your to-do list (max 50 characters): ");
-    scanf(" %[^\n]", ptrTDL->title);
+    scanf(" %[^\n]", ptrTDL[0].title);
 
      printf("\n=============================================\n");
-    printf("** %s **\n",ptrTDL[0].title );
+    printf("** %s **\n",ptrTDL->title );
     printf("=============================================\n\n");
 
     printf("\033[1;32m"); // Set text color to green
@@ -306,9 +366,11 @@ struct TodoList *create_a_new_todo_list(struct TodoList *ptrTDL,int number_of_to
     printf("\n\n**  Success!  **\n");
     printf("Your To-do List has been created successfully.\n");
     printf("List Name: %s\n",ptrTDL->title);
-    printf("Number of Items: 0 (Start adding tasks!)\n\n",ptrTDL->number_of_tasks);
+    printf("Number of Items: 0 (Start adding tasks!)\n\n",number_of_todo_lists);
 
     printf("\033[0m");
+
+
     return ptrTDL;
 }
 
@@ -365,8 +427,10 @@ askTheUserToChoose:
     {
     case 1:
 
-        edit_the_todo_list_items(&ptrTDL);
+        //edit_the_todo_list_items(&ptrTDL);
         //delete_the_todo_list_items(&ptrTDL);
+        display_the_todo_lists(&ptrTDL,number_of_todo_lists);
+
         goto askTheUserToChoose;
         break;
     case 2:
@@ -387,7 +451,7 @@ askTheUserToChoose:
                 // call the function that is responsible for creating new to-do listes
                 printf("Great! Let's add a new task...\n");
                 ptrTDL->number_of_tasks = 0;
-                add_new_tasks_to_the_todo_list(&ptrTDL);
+                add_new_tasks_to_the_todo_list(ptrTDL,&ptrTDL);
 
             }
             else if(userResponseToCreateNewTask == 'N' || userResponseToCreateNewTask == 'n')
@@ -424,3 +488,6 @@ askTheUserToChoose:
 
     return 0;
 }
+
+
+
