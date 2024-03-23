@@ -79,21 +79,22 @@ void display_the_todo_list_item_details(struct TodoList *ptrTDL)
 
 
 
-for(int i = 0; i < (ptrTDL->number_of_tasks); i++){
+    for(int i = 0; i < (ptrTDL->number_of_tasks); i++)
+    {
         printf("\033[1;34m"); // Set text color to blue
-    printf("-----------------------------------------------------------------------\n");
-    printf("Task Description: %s\n", ptrTDL->todo_tasky[i].description);
-    printf("-----------------------------------------------------------------------\n");
-    printf("\033[1;32m"); // Set text color to green
-    printf("Task Priority:    %d\n", ptrTDL->todo_tasky[i].Priority);
-    printf("-----------------------------------------------------------------------\n");
-    printf("\033[1;33m"); // Set text color to yellow
-    printf("Task Duration:    %d minutes\n", ptrTDL->todo_tasky[i].expected_duration);
-    printf("-----------------------------------------------------------------------\n");
-    printf("\033[0m");
-    printf("\n=============================================\n\n");
+        printf("-----------------------------------------------------------------------\n");
+        printf("Task Description: %s\n", ptrTDL->todo_tasky[i].description);
+        printf("-----------------------------------------------------------------------\n");
+        printf("\033[1;32m"); // Set text color to green
+        printf("Task Priority:    %d\n", ptrTDL->todo_tasky[i].Priority);
+        printf("-----------------------------------------------------------------------\n");
+        printf("\033[1;33m"); // Set text color to yellow
+        printf("Task Duration:    %d minutes\n", ptrTDL->todo_tasky[i].expected_duration);
+        printf("-----------------------------------------------------------------------\n");
+        printf("\033[0m");
+        printf("\n=============================================\n\n");
 
-}
+    }
 
 
 
@@ -107,53 +108,64 @@ for(int i = 0; i < (ptrTDL->number_of_tasks); i++){
     printf("\n");
 
     printf("Do you want to add a new task to your list (Y/N)? ");
-        scanf(" %c", &userResponseToCreateNewTask);
-        // check if the user want to create a new to-do list or not
-        if(userResponseToCreateNewTask == 'Y' || userResponseToCreateNewTask == 'y')
-        {
+    scanf(" %c", &userResponseToCreateNewTask);
+    // check if the user want to create a new to-do list or not
+    if(userResponseToCreateNewTask == 'Y' || userResponseToCreateNewTask == 'y')
+    {
 
-            // call the function that is responsible for creating new to-do listes
-            printf("Great! Let's add a new task...\n");
-            add_new_tasks_to_the_todo_list(ptrTDL);
-        }
+        // call the function that is responsible for creating new to-do listes
+        printf("Great! Let's add a new task...\n");
+        add_new_tasks_to_the_todo_list(ptrTDL);
+    }
 
 
 }
 
-void add_new_tasks_to_the_todo_list(struct TodoList *ptrTDL)
+void add_new_tasks_to_the_todo_list(struct TodoList *ptrTDL,int number_of_todo_lists)
 {
     system("cls");
     // printf("\033[H\033[J");
-    int index = ptrTDL->number_of_tasks;
-    ptrTDL->number_of_tasks= ptrTDL->number_of_tasks + 1;
+    //ptrTDL = realloc(ptrTDL, number_of_todo_lists * sizeof(struct TodoList));
 
-    printf("new task num of tasks : %d\n",ptrTDL->number_of_tasks);
-
-
-    ptrTDL->todo_tasky = realloc(ptrTDL->todo_tasky, (ptrTDL->number_of_tasks) * sizeof(struct TodoTask));
-    if (ptrTDL->todo_tasky == NULL)
+    if (ptrTDL == NULL)
     {
         printf("Memory allocation failed.\n");
-        return 1; // Or handle the error appropriately
+        exit(1); // Or handle the error appropriately
     }
+
+    int index = ptrTDL->number_of_tasks;
+    ptrTDL->number_of_tasks = ptrTDL->number_of_tasks + 1;
+
+    printf("new task num of tasks : %d\n", ptrTDL->number_of_tasks);
+    printf("hhhh\n");
+ptrTDL->todo_tasky = realloc(ptrTDL->todo_tasky, (ptrTDL->number_of_tasks) * sizeof(struct TodoTask));
+ptrTDL->todo_tasky = realloc(ptrTDL->todo_tasky, (ptrTDL->number_of_tasks) * sizeof(struct TodoTask));
+
+
+    if (ptrTDL->todo_tasky == NULL)
+    {
+        perror("realloc failed");
+        return; // Error handling
+    }
+
 
     printf("\n=============================================\n");
     printf("** %s **\n", ptrTDL->title);
     printf("=============================================\n\n");
 
-
+/*
 
 
 
     printf("\n-> Please describe your task (max 100 characters) : ");
 
-    ptrTDL->todo_tasky[index].description = malloc(101); // Allocate memory for the description
-    if (ptrTDL->todo_tasky->description == NULL)
+    (*ptrTDL)->todo_tasky[index].description = malloc(101); // Allocate memory for the description
+    if ((*ptrTDL)->todo_tasky->description == NULL)
     {
         printf("Memory allocation failed.\n");
         return;
     }
-    scanf(" %[^\n]", ptrTDL->todo_tasky[index].description);
+    scanf(" %[^\n]", (*ptrTDL)->todo_tasky[index].description);
 
     printf("\nSelect the priority level of this task:\n");
     printf("  1. Urgent\n");
@@ -161,10 +173,10 @@ void add_new_tasks_to_the_todo_list(struct TodoList *ptrTDL)
     printf("  3. Medium\n");
     printf("  4. Low\n");
     printf("Enter your choice (1-4): ");
-    scanf("%d", &(ptrTDL->todo_tasky[index].Priority));
+    scanf("%d", &((*ptrTDL)->todo_tasky[index].Priority));
 
     printf("\n-> How long do you anticipate this task will take to complete (in minutes)?: ");
-    scanf("%d", &(ptrTDL->todo_tasky[index].expected_duration));
+    scanf("%d", &((*ptrTDL)->todo_tasky[index].expected_duration));
 
     printf("\033[1;32m"); // Set text color to green
     printf("\n\n[SUCCESS]: The task has been added successfully.\n\n");
@@ -172,46 +184,19 @@ void add_new_tasks_to_the_todo_list(struct TodoList *ptrTDL)
 
 
     display_the_todo_list_item_details((ptrTDL));
+    */
 
 }
-void create_a_new_todo_list(int number_of_todo_lists)
+void create_a_new_todo_list(struct TodoList *ptrTDL,int number_of_todo_lists)
 {
     printf("\n");
-    char userResponseToCreateNewTask;
-    struct TodoList *ptrTDL;
+    ptrTDL = realloc(ptrTDL,number_of_todo_lists * sizeof(struct TodoList));
 
-    // allocating memory for number_of_todo_lists
-    ptrTDL = (struct TodoList*) malloc(number_of_todo_lists * sizeof(struct TodoList));
 
 
     printf("=============================================\n");
     printf("** Create a New To-Do List **\n");
     printf("=============================================\n\n");
-
-    /*
-        char *title = NULL;
-        //char filename[64];
-
-        //FILE *new_todo_list;
-
-        title = (char*)malloc(sizeof(char) * 50);
-        if (title == NULL)
-        {
-            printf("Memory allocation failed for <title.\n");
-            return;
-        }
-
-        // get the title of the to-do list
-        printf("-> Enter a title that reflects your goals for this to-do list : ");
-        scanf(" %[^\n]", title);
-
-        /*  todoList[0].title = title;
-          todoList[0].number_of_tasks= -1;*/
-
-
-    //fprintf(fptr, title);
-    //fprintf(fptr, "\n");
-    //sprintf(filename, "%s.txt", title);
 
 
     //new_todo_list = fopen(filename, "a");
@@ -219,12 +204,6 @@ void create_a_new_todo_list(int number_of_todo_lists)
     scanf(" %[^\n]", ptrTDL->title);
 
 
-
-    /*
-    printf("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
-    printf("=> the title is : %s\n", ptrTDL->title);
-    printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
-    */
     printf("\033[1;32m"); // Set text color to green
 
     printf("\n\n**  Success!  **\n");
@@ -236,43 +215,20 @@ void create_a_new_todo_list(int number_of_todo_lists)
 
 
 
-        printf("Do you want to add a new task to your list (Y/N)? ");
-        scanf(" %c", &userResponseToCreateNewTask);
-        // check if the user want to create a new to-do list or not
-        if(userResponseToCreateNewTask == 'Y' || userResponseToCreateNewTask == 'y')
-        {
-
-            // call the function that is responsible for creating new to-do listes
-            printf("Great! Let's add a new task...\n");
-            ptrTDL->number_of_tasks = 0;
-            add_new_tasks_to_the_todo_list(ptrTDL);
-        }
-        else if(userResponseToCreateNewTask == 'N' || userResponseToCreateNewTask == 'n')
-        {
-
-            // exite the to-do list show the existing to do lists.
-            printf("Okay, exiting the to-do list creator.\n");
-
-        }
-        else
-        {
-            // handle invalid inputs
-            printf("Please enter 'Y' for yes or 'N' for no.");
-
-        }
 
 
-    //fclose(new_todo_list);
-    //free(title); // Free allocated memory for title before returning
 
 }
 
 int main()
 {
-    //FILE *fptr;
-    //fptr = fopen("to-do_list_titles.txt", "a");
+
     int userOptionChoice;
     int number_of_todo_lists = 0;
+    struct TodoList *ptrTDL;
+
+    // allocating memory for number_of_todo_lists
+    ptrTDL = (struct TodoList*) malloc(number_of_todo_lists * sizeof(struct TodoList));
 
     // starting the app f
     // Option 1: Welcome message
@@ -293,57 +249,68 @@ int main()
 
 
     //display the start menu
-askTheUserToChoose:
-    /*
-    printf("=> Option 1: View To-Do List\n");
-    printf("=> Option 2: Create a New To-Do List\n");
-    printf("=> Option 3: Exit\n");
-    */
-
-
-    // Display menu options in a clear and concise format
-    printf("** Main Menu **\n");
-    printf("  1. View To-Do List\n");
-    printf("  2. Create a New To-Do List\n");
-    printf("  3. Exit\n\n");
-
-    // Prompt the user for input with clear instructions
-    printf("Enter your choice (1-3): ");
-    scanf("%d", &userOptionChoice);
-
-    /* after choosing the first option
-
-    printf("- Option 3: Mark To-Do List Complete\n");
-    printf("- Option 4: Delete To-Do List\n");
-
-    */
-    /*
-
-    printf("\n-> What would you like to do next? : ");
-    scanf("%d", &userOptionChoice);
-
-    */
-
-    switch(userOptionChoice)
+    while(1)
     {
-    case 1:
-        display_the_todo_lists();
-        break;
-    case 2:
-        number_of_todo_lists++;
-        create_a_new_todo_list(number_of_todo_lists);
-        break;
-    case 3:
-        printf("the app is closed.");
-        exit(1);
-        break;
-    default:
-        printf("\n--------------------------------------\n");
-        printf("Invalid input. Please try again.\n");
-        printf("--------------------------------------\n\n");
-        goto askTheUserToChoose;
+        // Display menu options in a clear and concise format
+
+        printf("** Main Menu **\n");
+        printf("  1. View To-Do List\n");
+        printf("  2. Create a New To-Do List\n");
+        printf("  3. Exit\n\n");
+
+        // Prompt the user for input with clear instructions
+        printf("Enter your choice (1-3): ");
+        scanf("%d", &userOptionChoice);
+        switch(userOptionChoice)
+        {
+        case 1:
+            display_the_todo_lists(ptrTDL);
+            break;
+        case 2:
+            number_of_todo_lists++;
+            create_a_new_todo_list(ptrTDL,number_of_todo_lists);
+            char userResponseToCreateNewTask;
+            printf("Do you want to add a new task to your list (Y/N)? ");
+            scanf(" %c", &userResponseToCreateNewTask);
+            // check if the user want to create a new to-do list or not
+            if(userResponseToCreateNewTask == 'Y' || userResponseToCreateNewTask == 'y')
+            {
+
+                // call the function that is responsible for creating new to-do listes
+                printf("Great! Let's add a new task...\n");
+                ptrTDL->number_of_tasks = 0;
+                add_new_tasks_to_the_todo_list(ptrTDL,number_of_todo_lists);
+            }
+            else if(userResponseToCreateNewTask == 'N' || userResponseToCreateNewTask == 'n')
+            {
+
+                // exite the to-do list show the existing to do lists.
+                printf("Okay, exiting the to-do list creator.\n");
+
+            }
+            else
+            {
+                // handle invalid inputs
+                printf("Please enter 'Y' for yes or 'N' for no.");
+
+            }
+
+
+            break;
+        case 3:
+            printf("the app is closed.");
+            exit(1);
+            break;
+        default:
+            printf("\n--------------------------------------\n");
+            printf("Invalid input. Please try again.\n");
+            printf("--------------------------------------\n\n");
+            continue;
+
+        }
+
 
     }
-    //fclose(fptr);
+
     return 0;
 }

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1710941091 source:c:\users\developer\documents\github\c-todo-list\main.c
+1710974882 source:c:\users\developer\documents\github\c-todo-list\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
